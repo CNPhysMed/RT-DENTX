@@ -81,7 +81,7 @@ Patient_XXX/
 
 ### Lancement
 
-![Écran d'accueil RT-DENTX](splash_screen.png)
+![Écran d'accueil RT-DENTX](images/splash_screen.png)
 
 <ul style="list-style-type:none;">
   <li>1. **Acceptez la licence** </li>
@@ -93,7 +93,7 @@ Patient_XXX/
 
 1. **Menu Fichier → Ouvrir dossier DICOM**
    
-   ![Menu Fichier](menu_file.png)
+   ![Menu Fichier](images/menu_file.png)
 
 2. **Sélectionnez le dossier** préparé contenant tous les fichiers DICOM
 
@@ -103,7 +103,7 @@ Patient_XXX/
 
 ### Vue principale après chargement
 
-![Interface principale](main_interface.png)
+![Interface principale](images/main_interface.png)
 
 L'interface se compose de :
 - **Zone centrale** : Visualisation des coupes CT, des structures du RTStruct et de la distribution de dose (cocher "Afficher dose")
@@ -154,14 +154,14 @@ Les 6 points de référence correspondent aux dents suivantes :
 
 **⚠️ IMPORTANT** : Les points doivent être placés **à la base des couronnes**, c'est-à-dire à la jonction entre la couronne et la racine (collet anatomique).
 
-![Placement des points](tooth_placement.png)
+![Placement des points](images/tooth_placement.png)
 
 **Conseils pour un placement optimal :**
 - Naviguez jusqu'à une coupe où les dents sont bien visibles
 - Utilisez la coupe à la base des couronnes dentaires
 - En cas de doute, consultez la section Aide du logiciel (bouton Aide)
 
-![Aide pour le placement des points](Aide.png)
+![Aide pour le placement des points](images/Aide.png)
 
 #### Placement des points
 
@@ -201,7 +201,7 @@ Si vous devez corriger la position d'un point :
 
 ### Étape 4 : Configuration des paramètres (optionnel)
 
- ![Configuration window](config_window.png)
+ ![Configuration window](images/config_window.png)
  
 Avant de générer les cylindres, vous pouvez ajuster les paramètres :
 
@@ -226,7 +226,7 @@ Avant de générer les cylindres, vous pouvez ajuster les paramètres :
    - Naviguez dans les coupes pour vérifier le positionnement
    - Si le positionnement est incorrect, il est possible de modifier la position du point correspondant et de regénérer les cylindres. 
 
-![Cylindres générés](cylinders_3d.png)
+![Cylindres générés](images/cylinders_3d.png)
 
 ### Étape 6 : Export des structures (optionnel)
 
@@ -237,12 +237,12 @@ Pour ajouter les structures dentaires au RTStruct du patient :
 
 ### Étape 7 : Génération du rapport dosimétrique
 
-![Configuration seuils](threshold_config.png)
+![Configuration seuils](images/threshold_config.png)
 
 1. **Configuration du rapport** 
 Les recommandations cliniques et les seuils de risque peuvent être modifiés. 
 
-![Générateur de rapport](report_generator.png)
+![Générateur de rapport](images/report_generator.png)
 
 2. **Cliquez sur "Générer rapport PDF"**
    - ✅ **Cartographies anatomiques** : Représentation visuelle avec code couleur
@@ -258,7 +258,7 @@ Les recommandations cliniques et les seuils de risque peuvent être modifiés.
 
 ### Contenu du rapport généré
 
-![Extrait rapport](report_example.png)
+![Extrait rapport](images/report_example.png)
 
 Le rapport PDF contient :
 
