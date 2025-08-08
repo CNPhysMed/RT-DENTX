@@ -6,13 +6,9 @@
 2. [Installation](#installation)
 3. [Préparation des données DICOM](#préparation-des-données-dicom)
 4. [Démarrage ](#démarrage)
-5. [Interface utilisateur](#interface-utilisateur)
-6. [Workflow clinique détaillé](#workflow-clinique-détaillé)
-7. [Génération du rapport dosimétrique](#génération-du-rapport-dosimétrique)
-8. [Export des structures](#export-des-structures)
-9. [Configuration avancée](#configuration-avancée)
-10. [Résolution des problèmes](#résolution-des-problèmes)
-11. [FAQ](#faq)
+5. [Workflow clinique détaillé](#workflow-clinique-détaillé)
+6. [Résolution des problèmes](#résolution-des-problèmes)
+7. [FAQ](#faq)
 
 ---
 
