@@ -1,9 +1,18 @@
-# RT-DENTX 🦷
+<div align="center">
+  <img src="assets/rt_dentx_logo.png" alt="RT-DENTX Logo" width="200"/>
+  
+  # RT-DENTX : DENTal eXposure in Radiation Therapy
+  
+  **Logiciel de relevé dosimétrique dentaire pour la radiothérapie**
+  
+  ![Version](https://img.shields.io/badge/version-2.0.0-blue)
+  ![License](https://img.shields.io/badge/license-BSD%203--Clause-green)
+  ![Python](https://img.shields.io/badge/python-3.8%2B-blue)
+  
+  © 2025 Caroline Moreau-Noblet — Licence BSD 3-Clause
+</div>
 
-**RT-DENTX** - Logiciel d'évaluation dosimétrique dentaire pour la radiothérapie
-
-© 2025 Caroline Moreau-Noblet — Licence BSD 3-Clause
-
+---
 ## Description
 
 RT-DENTX est un logiciel destiné à l'évaluation de la dose reçue par les structures dentaires lors de traitements de radiothérapie de la tête et du cou. Il permet aux professionnels de santé d'identifier précisément les dents à risque d'ostéoradionécrose et de générer des rapports dosimétriques détaillés.
