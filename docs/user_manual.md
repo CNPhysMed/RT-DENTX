@@ -8,7 +8,7 @@
 4. [Démarrage ](#démarrage)
 5. [Workflow clinique détaillé](#workflow-clinique-détaillé)
 6. [Résolution des problèmes](#résolution-des-problèmes)
-7. [FAQ](#faq)
+
 
 ---
 
