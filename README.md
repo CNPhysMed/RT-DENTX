@@ -15,7 +15,7 @@
 ---
 ## Description
 
-RT-DENTX est un logiciel destiné à l'évaluation de la dose reçue par les structures dentaires lors de traitements de radiothérapie de la tête et du cou. Il permet aux professionnels de santé d'identifier précisément les dents à risque d'ostéoradionécrose et de générer des rapports dosimétriques détaillés.
+RT-DENTX est un logiciel destiné à l'évaluation de la dose reçue par les structures dentaires lors de traitements de radiothérapie de la tête et du cou. Il permet aux professionnels de santé d'identifier les dents à risque d'ostéoradionécrose et de générer des rapports dosimétriques détaillés.
 
 ### Fonctionnalités principales
 
@@ -319,8 +319,8 @@ python instant_splash_launcher.py
 
 RT-DENTX est basé sur les travaux de recherche suivants :
 
-- Delpon et al. (2022) - "Dental exposure assessment in head and neck radiotherapy: A prospective study"
-- Carsuzaa et al. (2024) - "Oral health and dental care in oncology patients"
+- Delpon et al. (2022) - Cancer/Radiothérapie, Volume 27, Issue 2, April 2023, Pages 103-108 : "Systematic dosimetric evaluation of risk of osteoradionecrosis (DERO): First results of dose reporting for preventing teeth osteoradionecrosis after head and neck irradiation" (10.1016/j.canrad.2022.08.003)
+- Carsuzaa et al. (2024) - Bulletin du Cancer, Volume 111, Issue 5, May 2024, Pages 525-536 : "Prevention, diagnosis and management of osteoradionecrosis: Where do we stand? (https://doi.org/10.1016/j.bulcan.2024.01.008)"
 
 ## Licence
 
