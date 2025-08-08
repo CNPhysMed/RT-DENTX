@@ -1,3 +1,5 @@
+![RT-DENTX Logo](../assets/rt_dentx_logo.png)
+
 # RT-DENTX API Reference
 
 ## Table des matières
