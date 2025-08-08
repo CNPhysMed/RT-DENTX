@@ -1,4 +1,4 @@
-# RT-DENTX - Manuel Utilisateur
+# <img src="../assets/rt_dentx_logo.png" alt="RT-DENTX Logo" width="150" height="150"/> - Manuel Utilisateur
 
 ## Table des matières
 
