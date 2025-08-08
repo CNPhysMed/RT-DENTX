@@ -1,4 +1,4 @@
-# RT-DENTX - Documentation Technique
+# <img src="../assets/rt_dentx_logo.png" alt="RT-DENTX Logo" width="150" height="150"/> - Documentation Technique
 
 ## Architecture du système
 
