@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# PyInstaller - IMPORTANT !
+*.manifest
+*.spec
+build/
+dist/
+
+# Executables et releases - IMPORTANT !
+*.exe
+*.zip
+RT-DENTX-Release/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Projet
+*.dcm
+*.pdf
+test_data/
+patient_data/
+*.log
+.rt_dentx/
