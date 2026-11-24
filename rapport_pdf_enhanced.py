@@ -41,9 +41,9 @@ def genere_rapport_pdf_enhanced(doses_data, parameters, patient_info=None, outpu
             "low_label": "Faible",
             "moderate_label": "Modéré", 
             "high_label": "Élevé",
-            "low_description": "Risque d'ostéoradionécrose faible",
-            "moderate_description": "Risque d'ostéoradionécrose modéré",
-            "high_description": "Risque d'ostéoradionécrose élevé"
+            "low_description": "Catégorie de dose faible",
+            "moderate_description": "Catégorie de dose modéré",
+            "high_description": "Catégorie de dose élevé"
         }
         recommendations_text = _get_default_recommendations(risk_config)
     
@@ -106,7 +106,7 @@ def genere_rapport_pdf_enhanced(doses_data, parameters, patient_info=None, outpu
         
         _draw_footer(c, width, height)
         
-        # === PAGE RECOMMANDATIONS ===
+        # === PAGE COMMENTAIRES ===
         c.showPage()
         # LOGO SUR CHAQUE PAGE
         _draw_logo(c, width, height)
@@ -340,12 +340,12 @@ def _draw_legend_below_diagram(c, center_x, y_pos, risk_config):
     c.setFillColor(colors.black)
     
     legend_y = y_pos - 30
-    c.drawString(center_x - 150, legend_y, "Légende des niveaux de risque:")
+    c.drawString(center_x - 150, legend_y, "Légende des niveaux de dose:")
     legend_y -= 20
     
     c.setFont("Helvetica", 9)
     
-    # Vert - Risque faible
+    # Vert - catégorie de dose faible
     c.setFillColor(colors.green)
     c.rect(center_x - 150, legend_y-3, 12, 8, fill=1)
     c.setFillColor(colors.black)
@@ -353,7 +353,7 @@ def _draw_legend_below_diagram(c, center_x, y_pos, risk_config):
                 f"Vert: Dose moyenne < {risk_config['low_threshold']:.0f} Gy - {risk_config['low_description']}")
     legend_y -= 15
     
-    # Orange - Risque modéré
+    # Orange - Catégorie de dose modéré
     c.setFillColor(colors.orange)
     c.rect(center_x - 150, legend_y-3, 12, 8, fill=1)
     c.setFillColor(colors.black)
@@ -361,7 +361,7 @@ def _draw_legend_below_diagram(c, center_x, y_pos, risk_config):
                 f"Orange: {risk_config['low_threshold']:.0f}-{risk_config['moderate_threshold']:.0f} Gy - {risk_config['moderate_description']}")
     legend_y -= 15
     
-    # Rouge - Risque élevé
+    # Rouge - Catégorie de dose élevé
     c.setFillColor(colors.red)
     c.rect(center_x - 150, legend_y-3, 12, 8, fill=1)
     c.setFillColor(colors.black)
@@ -386,7 +386,7 @@ def _create_dose_table_data(doses_data, parameters, risk_config):
     if parameters.get('dose_racine', False):
         headers.append("Racine\n(Gy)")
     
-    headers.append("Niveau de\nrisque")
+    headers.append("Niveau de\ndose")
     
     # Ordre anatomique des dents
     tooth_order = [
@@ -438,7 +438,7 @@ def _create_dose_table_data(doses_data, parameters, risk_config):
                 else:
                     row.append("N/C")
             
-            # Niveau de risque basé sur la dose maximale de la ligne
+            # Niveau de dose basé sur la dose maximale de la ligne
             if doses_in_row:
                 max_dose = max(doses_in_row)
                 risk_level = _get_risk_level(max_dose, risk_config)
@@ -498,7 +498,7 @@ def _draw_dose_table(c, table_data, doses_complete, risk_config, y_pos, width):
             
             # Extraire les doses numériques de la ligne
             doses_in_row = []
-            for cell in row[1:-1]:  # Exclure dent et niveau de risque
+            for cell in row[1:-1]:  # Exclure dent et niveau de dose
                 if isinstance(cell, str) and cell.replace('.', '').replace(',', '').isdigit():
                     try:
                         dose_val = float(cell.replace(',', '.'))
@@ -543,7 +543,7 @@ def _draw_simple_table_fallback(c, table_data, y_pos):
 def _draw_color_legend(c, y_pos, risk_config):
     """Dessine la légende des couleurs du tableau"""
     c.setFont("Helvetica-Bold", 12)
-    c.drawString(50, y_pos, "Légende des niveaux de risque:")
+    c.drawString(50, y_pos, "Légende des niveaux de dose:")
     y_pos -= 20
     
     c.setFont("Helvetica", 10)
@@ -569,7 +569,7 @@ def _draw_color_legend(c, y_pos, risk_config):
     c.drawString(75, y_pos, f"Rouge: > {risk_config['moderate_threshold']:.0f} Gy - {risk_config['high_description']}")
 
 def _draw_recommendations(c, recommendations_text, y_pos):
-    """Dessine les recommandations cliniques"""
+    """Dessine les commentaires d'analyse"""
     for i, line in enumerate(recommendations_text):
         if i == 0:  # Titre principal
             c.setFont("Helvetica-Bold", 16)
@@ -587,9 +587,14 @@ def _draw_footer(c, width, height):
     """Dessine le pied de page avec mention légale"""
     # Mention légale
     disclaimer_lines = [
-        "Ce rapport dosimétrique a été généré automatiquement à partir des données TPS et du choix des volumes dentaires par l'opérateur.",
-        "Les doses indiquées représentent une estimation de la dose délivrée dans un volume géométrique simplifié et doivent être interprétées en fonction du contexte clinique.",
-        "L'utilisation de ce rapport et des données qu'il contient se fait sous la responsabilité de l'utilisateur uniquement."
+        "DOCUMENT EXPÉRIMENTAL - NON DESTINÉ À UN USAGE CLINIQUE",
+    "Les structures dentaires sont des approximations géométriques.",
+    "Les doses indiquées sont des estimations dosimétriques.",
+    "Les résultats dépendent des données DICOM et des hypothèses de modélisation.",
+    "Les catégories de dose ne constituent pas une estimation du risque clinique.",
+    "Ces résultats ne doivent pas orienter une décision médicale ou thérapeutique.",
+    "Recherche, développement et enseignement uniquement.",
+    "Logiciel non marqué CE - Version non maintenue."
     ]
     
     y_start = 80
@@ -606,6 +611,26 @@ def _draw_footer(c, width, height):
     c.setFont("Helvetica", 8)
     c.setFillColor(colors.black)
     _draw_centered_text(c, width/2, 30, f"Rapport généré par RT-DENTX - {datetime.datetime.now().strftime('%d/%m/%Y')}")
+    c.saveState()
+
+    c.setFont("Helvetica-Bold", 8)
+    c.setFillColorRGB(0.75, 0.0, 0.0)
+    
+    c.drawCentredString(
+        width / 2,
+        55,
+        "DOCUMENT EXPERIMENTAL - NON DESTINE A UN USAGE CLINIQUE"
+    )
+    
+    c.setFont("Helvetica", 7)
+    
+    c.drawCentredString(
+        width / 2,
+        45,
+        "Research and Educational Use Only - Not for Clinical Use"
+    )
+    
+    c.restoreState()
 
 def _draw_centered_text(c, x, y, text):
     """Dessine du texte centré"""
@@ -622,7 +647,6 @@ def _get_dose_color(dose, risk_config):
         return colors.red
 
 def _get_risk_level(dose, risk_config):
-    """Retourne le niveau de risque selon la dose"""
     if dose < risk_config["low_threshold"]:
         return risk_config["low_label"]
     elif dose < risk_config["moderate_threshold"]:
@@ -631,22 +655,16 @@ def _get_risk_level(dose, risk_config):
         return risk_config["high_label"]
 
 def _get_default_recommendations(risk_config):
-    """Retourne les recommandations par défaut"""
     return [
-        "Recommandations cliniques",
+        "LIMITES DE L'ANALYSE EXPÉRIMENTALE",
         "",
-        "PRÉVENTION DE L'OSTÉORADIONÉCROSE :",
+        "Les volumes dentaires sont des approximations géométriques.",
+        "Les doses calculées sont des estimations.",
         "",
-        "• Des précautions particulières doivent être prises lors des soins bucco-dentaires,",
-        "  en particulier en cas d'avulsion ou d'un autre geste chirurgical en territoire irradié.",
+        "Les seuils de dose servent à la catégorisation",
+        "expérimentale des résultats.",
         "",
-        f"• Surveillance clinique renforcée pour les dents ayant reçu > {risk_config['moderate_threshold']:.0f} Gy (risque élevé)",
-        f"  et entre {risk_config['low_threshold']:.0f}-{risk_config['moderate_threshold']:.0f} Gy (risque modéré).",
-        "",
-        "CONTACT :",
-        "",
-        "En cas de doute, veuillez prendre contact avec :",
-        "• Le radiothérapeute référent, ou",
-        "• Le service d'odontologie ou de chirurgie maxillofaciale du CHU le plus proche."
+        "Recherche et enseignement uniquement.",
+        "Non destiné à une utilisation clinique."
     ]
 
