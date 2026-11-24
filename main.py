@@ -39,13 +39,14 @@ from tkinter import ttk, filedialog, messagebox
 
 def main():
     """Point d'entrée principal pour l'exécutable"""
-    print("🦷 RT-DENTX - Version Release")
+    print("RT-DENTX - Research and Educational Use Only")
+    print("Not for Clinical Use - No longer maintained")
     print("=" * 50)
     
     try:
         # Créer la fenêtre racine
         root = tk.Tk()
-        root.title("RT-DENTX")
+        root.title("RT-DENTX - Research Use Only - Not for Clinical Use")
         root.geometry("1600x900")
         root.withdraw()  # Cacher au début
         
