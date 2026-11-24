@@ -13,11 +13,21 @@
 </div>
 
 ---
-## Description
 
-RT-DENTX est un logiciel destiné à l'évaluation de la dose reçue par les structures dentaires lors de traitements de radiothérapie de la tête et du cou. Il permet aux professionnels de santé d'identifier les dents à risque d'ostéoradionécrose et de générer des rapports dosimétriques détaillés.
+## Destination du logiciel et statut du projet
+Research and Development / Educational Use Only — Not for Clinical Use.
 
-### Fonctionnalités principales
+RT-DENTX est un prototype logiciel open source exclusivement destiné à la recherche scientifique, au développement et à l'enseignement dans le domaine de la physique médicale.
+
+Cette version ne bénéficie pas d'un marquage CE au titre du règlement (UE) 2017/745 relatif aux dispositifs médicaux et n'est pas destinée à une utilisation clinique.
+
+Les structures générées, les résultats dosimétriques et les rapports produits ne doivent pas être utilisés pour établir un diagnostic, évaluer un risque clinique individuel, orienter une décision médicale ou thérapeutique, planifier ou optimiser un traitement, ou contribuer à la prise en charge clinique d'un patient.
+
+## Arrêt du développement — Novembre 2026
+
+Le développement et la maintenance de cette version Python ont été arrêtés. Le code source reste accessible à des fins de recherche, de développement et d'enseignement, dans les conditions prévues par la licence BSD 3-Clause.
+
+## Fonctionnalités principales
 
 - 📊 **Analyse DICOM** : Chargement et visualisation de fichiers DICOM (CT, RTDose, RTStruct)
 - 🎯 **Segmentation dentaire** : Identification des structures dentaires
@@ -112,6 +122,8 @@ Les recommandations cliniques et les seuils de risque peuvent être modifiés vi
 - **Risque faible** : < 30 Gy (par défaut)
 - **Risque modéré** : 30-50 Gy
 - **Risque élevé** : > 50 Gy
+  
+Les seuils dosimétriques proposés sont utilisés à des fins de catégorisation expérimentale et d'exploration des données de la littérature scientifique. Ils ne constituent pas des seuils de décision clinique validés pour cette version du logiciel et ne permettent pas, à eux seuls, d'évaluer un risque individuel d'ostéoradionécrose.
 
 ### Paramètres dentaires
 
