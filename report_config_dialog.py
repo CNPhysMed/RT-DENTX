@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Dialogue de configuration pour le rapport dosimétrique
-Gère les seuils de risque et les recommandations cliniques
+Gère les seuils dosimétriques et les commentaires d'analyse
 © 2025 Caroline Moreau-Noblet — RT-DENTX — Licence BSD 3-Clause
 """
 
@@ -21,36 +21,33 @@ class ReportConfigDialog:
     
     # Configuration par défaut
     DEFAULT_CONFIG = {
-        "risk_levels": {
-            "low_threshold": 30.0,
-            "moderate_threshold": 50.0,
-            "low_label": "Faible",
-            "moderate_label": "Modéré",
-            "high_label": "Élevé",
-            "low_description": "Risque d'ostéoradionécrose faible",
-            "moderate_description": "Risque d'ostéoradionécrose modéré",
-            "high_description": "Risque d'ostéoradionécrose élevé"
-        },
-        "recommendations": """Recommandations cliniques
+    "risk_levels": {
+        "low_threshold": 30.0,
+        "moderate_threshold": 50.0,
+        "low_label": "Faible",
+        "moderate_label": "Intermédiaire",
+        "high_label": "Élevée",
+        "low_description": "Catégorie de dose faible",
+        "moderate_description": "Catégorie de dose intermédiaire",
+        "high_description": "Catégorie de dose élevée"
+    },
+    "recommendations": """COMMENTAIRES D'ANALYSE EXPÉRIMENTALE
 
-PRÉVENTION DE L'OSTÉORADIONÉCROSE :
+Les seuils de {low_threshold} Gy et de
+{moderate_threshold} Gy permettent de catégoriser
+les distributions de dose à des fins scientifiques.
 
-• Des précautions particulières doivent être prises lors des soins bucco-dentaires,
-  en particulier en cas d'avulsion ou d'un autre geste chirurgical en territoire irradié.
+Ces seuils ne constituent pas des critères
+de décision clinique validés.
 
-• Surveillance clinique renforcée pour les dents ayant reçu > {moderate_threshold} Gy (risque élevé)
-  et entre {low_threshold}-{moderate_threshold} Gy (risque modéré).
+Les structures dentaires sont des approximations
+géométriques.
 
-• Maintien d'une hygiène bucco-dentaire optimale.
+Les résultats sont exclusivement destinés à la
+recherche, au développement et à l'enseignement.
 
-• Fluorothérapie quotidienne recommandée.
-
-CONTACT :
-
-En cas de doute, veuillez prendre contact avec :
-• Le radiothérapeute référent, ou
-• Le service d'odontologie ou de chirurgie maxillofaciale du CHU le plus proche."""
-    }
+Non destiné à une utilisation clinique."""
+}
     
     def __init__(self, parent, ct_viewer):
         self.parent = parent
@@ -101,7 +98,7 @@ En cas de doute, veuillez prendre contact avec :
         }
     
     def _convert_recommendations_to_text(self, rec_dict):
-        """Convertit le format dictionnaire des recommandations en texte"""
+        """Convertit le format dictionnaire des commentaires en texte"""
         if not rec_dict or not isinstance(rec_dict, dict):
             return self.DEFAULT_CONFIG["recommendations"]
         
@@ -163,8 +160,8 @@ En cas de doute, veuillez prendre contact avec :
         self._load_values()
     
     def _create_threshold_section(self, parent):
-        """Crée la section des seuils de risque"""
-        frame = ttk.LabelFrame(parent, text="Seuils de risque (Gy)", padding=10)
+        """Crée la section des seuils dosimétriques"""
+        frame = ttk.LabelFrame(parent, text="Seuils dosimétriques (Gy)", padding=10)
         frame.pack(fill=tk.X, pady=(0, 10))
         
         # Grid pour les seuils
@@ -172,7 +169,7 @@ En cas de doute, veuillez prendre contact avec :
         grid_frame.pack(fill=tk.X)
         
         # Seuil faible
-        ttk.Label(grid_frame, text="Seuil risque faible (<):").grid(row=0, column=0, sticky='w', padx=(0, 10), pady=5)
+        ttk.Label(grid_frame, text="Seuil dosimétrique faible (<):").grid(row=0, column=0, sticky='w', padx=(0, 10), pady=5)
         self.low_threshold_var = tk.DoubleVar()
         self.low_threshold_spin = ttk.Spinbox(grid_frame, from_=1.0, to=100.0, increment=1.0,
                                              textvariable=self.low_threshold_var, width=10)
@@ -180,7 +177,7 @@ En cas de doute, veuillez prendre contact avec :
         ttk.Label(grid_frame, text="Gy").grid(row=0, column=2, sticky='w', padx=(5, 20), pady=5)
         
         # Seuil modéré
-        ttk.Label(grid_frame, text="Seuil risque modéré (<):").grid(row=0, column=3, sticky='w', padx=(0, 10), pady=5)
+        ttk.Label(grid_frame, text="Seuil dosimétrique modéré (<):").grid(row=0, column=3, sticky='w', padx=(0, 10), pady=5)
         self.moderate_threshold_var = tk.DoubleVar()
         self.moderate_threshold_spin = ttk.Spinbox(grid_frame, from_=1.0, to=100.0, increment=1.0,
                                                   textvariable=self.moderate_threshold_var, width=10)
@@ -191,7 +188,7 @@ En cas de doute, veuillez prendre contact avec :
         labels_frame = ttk.Frame(frame)
         labels_frame.pack(fill=tk.X, pady=(10, 0))
         
-        ttk.Label(labels_frame, text="Labels des niveaux de risque:", font=('Arial', 10, 'bold')).pack(anchor='w')
+        ttk.Label(labels_frame, text="Labels des niveaux de dose:", font=('Arial', 10, 'bold')).pack(anchor='w')
         
         labels_grid = ttk.Frame(labels_frame)
         labels_grid.pack(fill=tk.X, pady=(5, 0))
@@ -236,8 +233,8 @@ En cas de doute, veuillez prendre contact avec :
         ttk.Entry(desc_grid, textvariable=self.high_desc_var, width=40).grid(row=2, column=1, sticky='w', pady=2)
     
     def _create_recommendations_section(self, parent):
-        """Crée la section des recommandations"""
-        frame = ttk.LabelFrame(parent, text="Recommandations cliniques", padding=10)
+        """Crée la section des commentraires"""
+        frame = ttk.LabelFrame(parent, text="Commentaires d'analyse", padding=10)
         frame.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
         
         # Note d'information
@@ -250,7 +247,7 @@ En cas de doute, veuillez prendre contact avec :
         self.recommendations_text = scrolledtext.ScrolledText(frame, wrap=tk.WORD, height=15)
         self.recommendations_text.pack(fill=tk.BOTH, expand=True)
         
-        # Boutons pour les recommandations
+        # Boutons pour les commentaires
         btn_frame = ttk.Frame(frame)
         btn_frame.pack(fill=tk.X, pady=(5, 0))
         
@@ -266,7 +263,7 @@ En cas de doute, veuillez prendre contact avec :
         note_frame = tk.Frame(frame)
         note_frame.pack(fill=tk.X, pady=(0, 10))
         
-        note_text = """⚠️ Pour modifier les seuils et recommandations, utilisez cette fenêtre de configuration.
+        note_text = """⚠️ Pour modifier les seuils et commentaires d'analyse, utilisez cette fenêtre de configuration.
 Les modifications seront visibles dans l'aperçu lors de la génération du rapport."""
         
         tk.Label(note_frame, text=note_text, font=('Arial', 9, 'italic'), 
@@ -310,7 +307,7 @@ Les modifications seront visibles dans l'aperçu lors de la génération du rapp
         self.moderate_desc_var.set(risk["moderate_description"])
         self.high_desc_var.set(risk["high_description"])
         
-        # Recommandations
+        # Commentaires
         rec_text = self.current_config.get("recommendations", "")
         # S'assurer qu'on n'affiche jamais 'None' ou une chaîne vide
         if not rec_text or rec_text == "None" or rec_text.strip() == "":
@@ -451,7 +448,7 @@ Les modifications seront visibles dans l'aperçu lors de la génération du rapp
     
     def _convert_to_config_manager_format(self, config):
         """Convertit vers le format ConfigManager"""
-        # Parser les recommandations
+        # Parser les commentaires
         rec_text = config["recommendations"]
         lines = rec_text.split('\n')
         
@@ -459,7 +456,7 @@ Les modifications seront visibles dans l'aperçu lors de la génération du rapp
         cm_config = {
             "risk_levels": config["risk_levels"],
             "recommendations": {
-                "title": "Recommandations cliniques",
+                "title": "Commentaires d'analyse",
                 "prevention_title": "PRÉVENTION DE L'OSTÉORADIONÉCROSE :",
                 "prevention_items": [],
                 "contact_title": "CONTACT :",
@@ -483,7 +480,7 @@ Les modifications seront visibles dans l'aperçu lors de la génération du rapp
         return cm_config
     
     def _reset_recommendations(self):
-        """Réinitialise les recommandations par défaut"""
+        """Réinitialise les commentaires par défaut"""
         self.recommendations_text.delete('1.0', tk.END)
         self.recommendations_text.insert('1.0', self.DEFAULT_CONFIG["recommendations"])
     
@@ -495,7 +492,7 @@ Les modifications seront visibles dans l'aperçu lors de la génération du rapp
             self._load_values()
     
     def _preview_recommendations(self):
-        """Aperçu des recommandations avec les seuils actuels"""
+        """Aperçu des commentaires avec les seuils actuels"""
         config = self._get_config_from_ui()
         risk = config["risk_levels"]
         
@@ -506,7 +503,7 @@ Les modifications seront visibles dans l'aperçu lors de la génération du rapp
         
         # Afficher dans une nouvelle fenêtre
         preview = tk.Toplevel(self.dialog)
-        preview.title("Aperçu des recommandations")
+        preview.title("Aperçu des commentaires")
         preview.geometry("600x500")
         
         text_widget = scrolledtext.ScrolledText(preview, wrap=tk.WORD)
