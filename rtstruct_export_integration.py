@@ -19,21 +19,23 @@ class RTStructExportMixin:
     
     def setup_rtstruct_export_section(self, parent):
         """Ajoute la section d'export RTStruct au panel"""
-        export_frame = ttk.LabelFrame(parent, text="Export RTStruct", padding=10)
+        export_frame = ttk.LabelFrame(parent, text="Export RTStruct expérimental", padding=10)
         export_frame.pack(fill=tk.X, pady=(0, 10))
         
         # Bouton d'export principal
         self.btn_export_rtstruct = ttk.Button(
             export_frame,
-            text="📁 Exporter RTStruct avec dents",
+            text="📁 Exporter RTStruct expérimental",
             command=self.export_rtstruct_with_teeth
         )
         self.btn_export_rtstruct.pack(fill=tk.X, pady=2)
         
         # Informations sur l'export
         info_text = """Exporte une copie du RTStruct original
-avec les contours dentaires ajoutés.
-Préserve toutes les structures existantes."""
+avec les structures dentaires expérimentales.
+
+Recherche et enseignement uniquement.
+Ne pas utiliser pour la planification clinique."""
         
         info_label = ttk.Label(
             export_frame, 
@@ -52,7 +54,20 @@ Préserve toutes les structures existantes."""
             # Vérifications préliminaires
             if not self._validate_export_conditions():
                 return
+            confirmed = messagebox.askokcancel(
+                "Export de structures expérimentales",
+                "Les structures dentaires générées reposent sur "
+                "des approximations géométriques.\n\n"
+                "Elles sont exclusivement destinées à la recherche, "
+                "au développement et à l'enseignement.\n\n"
+                "Elles ne doivent pas être utilisées pour la "
+                "planification ou l'optimisation clinique "
+                "d'un traitement de radiothérapie.\n\n"
+                "Souhaitez-vous poursuivre l'export ?"
+            )
             
+            if not confirmed:
+                return
             # Dialogue de sélection du fichier
             output_path = self._get_output_path()
             if not output_path:
@@ -67,7 +82,7 @@ Préserve toutes les structures existantes."""
                                if name.startswith(('C_', 'R_'))]
             
             export_options = {
-                'structure_set_name': filename_without_ext,  # Utilise le nom du fichier
+                'structure_set_name': f"RUO_{filename_without_ext}",  # Utilise le nom du fichier
                 'selected_structures': dental_structures
             }
             
