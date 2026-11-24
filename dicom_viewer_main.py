@@ -42,7 +42,7 @@ class DicomViewer:
     
     def __init__(self, master):
         self.master = master
-        self.master.title("RT-DENTX")
+        self.master.title("RT-DENTX - Research Use Only - Not for Clinical Use")
         self.master.geometry("1600x950")
         self.master.withdraw()  # Cacher la fenêtre au début
         
@@ -513,16 +513,25 @@ class DicomViewer:
                     bg='#f0f0f0', fg='#5dade2').pack(pady=(0, 20))
             
             # Conditions
-            conditions = """Logiciel libre pour l'évaluation dosimétrique dentaire
-    en radiothérapie de la sphère ORL
-    
-    Auteur: Caroline MOREAU-NOBLET
-    Version: 1.0 | Licence: BSD 3-Clause
-    
-    ⚠️ USAGE RECHERCHE ET ENSEIGNEMENT UNIQUEMENT
-    
-    Ce logiciel ne constitue pas un dispositif médical validé.
-    L'utilisateur assume l'entière responsabilité de l'utilisation."""
+            conditions = """Logiciel expérimental de dosimétrie dentaire
+appliquée à la radiothérapie ORL.
+
+Auteur : Caroline MOREAU-NOBLET
+Licence : BSD 3-Clause
+
+RECHERCHE, DÉVELOPPEMENT ET ENSEIGNEMENT UNIQUEMENT
+
+NON DESTINÉ À UNE UTILISATION CLINIQUE
+
+Ce logiciel n'est pas marqué CE au titre
+du règlement (UE) 2017/745.
+
+Les résultats ne doivent pas être utilisés
+pour une décision médicale ou thérapeutique,
+ni pour la prise en charge clinique d'un patient.
+
+Développement et maintenance arrêtés
+depuis novembre 2026."""
             
             tk.Label(main_frame, text=conditions,
                     font=('Arial', 9), bg='#f0f0f0', fg='#34495e',
