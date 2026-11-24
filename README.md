@@ -32,10 +32,10 @@ Le développement et la maintenance de cette version Python ont été arrêtés.
 - 📊 **Analyse DICOM** : Chargement et visualisation de fichiers DICOM (CT, RTDose, RTStruct)
 - 🎯 **Segmentation dentaire** : Identification des structures dentaires
 - 📈 **Calcul dosimétrique** : Évaluation de la dose reçue par chaque dent
-- 🎨 **Cartographie visuelle** : Visualisation 3D avec code couleur selon les niveaux de risque
-- 📄 **Rapports PDF** : Génération automatique de rapports cliniques détaillés
-- ⚡ **Interface intuitive** : Conçue pour une utilisation clinique rapide
-- 🔧 **Configuration personnalisable** : Ajustement des seuils de risque et paramètres d'affichage
+- 🎨 **Cartographie visuelle** : Visualisation 3D avec code couleur selon les catégories de dose
+- 📄 **Rapports PDF** : Génération automatique de rapports dosimétriques expérimentaux détaillés
+- ⚡ **Interface intuitive** : Conçue pour une utilisation facile
+- 🔧 **Configuration personnalisable** : Ajustement des catégories de dose et paramètres d'affichage
 - 💾 **Export RTStruct** : Intégration des structures dentaires dans les fichiers DICOM
 
 
@@ -91,9 +91,9 @@ Des versions précompilées sont disponibles dans la section [Releases](https://
 3. **Placer les points de référence** : Cliquer sur les 6 dents de référence (11, 13, 18, 41, 43, 48)
 4. **Générer automatiquement les autres dents** : Bouton "Générer autres dents"
 5. **Générer les cylindres 3D** : Bouton "Générer cylindres 3D"
-6. **Créer le rapport** : Bouton "📊 Générer rapport dosimétrique"
+6. **Créer le rapport** : Bouton "📊 Générer rapport dosimétrique expérimental"
 
-### Workflow clinique recommandé
+### Workflow expérimental recommandé
 
 1. **Préparation des données**
    - Assurez-vous d'avoir les fichiers DICOM complets (CT + RTDose + RTStruct)
@@ -107,23 +107,23 @@ Des versions précompilées sont disponibles dans la section [Releases](https://
 3. **Analyse dosimétrique**
    - Générez les cylindres 3D représentant les dents
    - Visualisez la distribution de dose avec les codes couleur
-   - Ajustez les seuils de risque si nécessaire (30 Gy et 50 Gy par défaut)
+   - Ajustez les catégories de dose si nécessaire (30 Gy et 50 Gy par défaut)
 
 4. **Génération du rapport**
    - Vérifiez les doses calculées dans l'aperçu
-   - Personnalisez les recommandations cliniques si besoin
+   - Personnalisez les commentaires d'analyse si besoin
    - Exportez en PDF pour le dossier patient
 
 ## Configuration
 
 ### Personnalisation des seuils de dose
 
-Les recommandations cliniques et les seuils de risque peuvent être modifiés via le menu Configuration :
-- **Risque faible** : < 30 Gy (par défaut)
-- **Risque modéré** : 30-50 Gy
-- **Risque élevé** : > 50 Gy
+Les commentaires d'analyse et les catégories de dose peuvent être modifiés via le menu Configuration :
+- **Dose faible** : < 30 Gy (par défaut)
+- **Dose intermédiaire** : 30-50 Gy
+- **Dose élevé** : > 50 Gy
   
-Les seuils dosimétriques proposés sont utilisés à des fins de catégorisation expérimentale et d'exploration des données de la littérature scientifique. Ils ne constituent pas des seuils de décision clinique validés pour cette version du logiciel et ne permettent pas, à eux seuls, d'évaluer un risque individuel d'ostéoradionécrose.
+Les seuils dosimétriques proposés sont utilisés à des fins de catégorisation expérimentale et d'exploration des données de la littérature scientifique. 
 
 ### Paramètres dentaires
 
@@ -171,13 +171,13 @@ RT-DENTX/
 │                                       # - Classe DoseReportGenerator
 │                                       # - Interface graphique du générateur
 │                                       # - Calcul des doses par structure
-│                                       # - Évaluation des risques
+│                                       # - Évaluation des catégories de dose
 │
 ├── 📄 rapport_pdf_enhanced.py          # Génération PDF des rapports
 │                                       # - create_enhanced_dose_report()
 │                                       # - Création des cartographies visuelles
 │                                       # - Tableaux de doses avec code couleur
-│                                       # - Recommandations cliniques
+│                                       # - Commentaires d'analyse
 │
 ├── 📄 plan_info_enhanced.py            # Extraction infos plan de traitement
 │                                       # - extract_plan_info()
@@ -188,7 +188,7 @@ RT-DENTX/
 ├── 📄 config_manager.py                # Gestion de la configuration
 │                                       # - Classe ConfigManager
 │                                       # - Paramètres dentaires par défaut
-│                                       # - Seuils de risque configurables
+│                                       # - Seuils de dose configurables
 │                                       # - Sauvegarde/chargement config JSON
 │
 ├── 📄 ui_panels.py                     # Panneaux d'interface utilisateur
@@ -338,9 +338,6 @@ RT-DENTX est basé sur les travaux de recherche suivants :
 
 Ce projet est sous licence BSD 3-Clause. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
-## Avertissement
-
-RT-DENTX est un outil d'aide à la décision clinique. Les résultats doivent toujours être interprétés par un professionnel de santé qualifié. Ce logiciel ne remplace pas le jugement clinique.
 
 ---
 
