@@ -177,7 +177,7 @@ class DosePreviewDialog(QDialog):
         # Onglet Racines
         self.create_roots_tab(tab_widget)
         
-        # Onglet Résumé par risque
+        # Onglet Résumé par dose
         self.create_risk_summary_tab(tab_widget)
         
         # Boutons de contrôle
@@ -218,7 +218,7 @@ class DosePreviewDialog(QDialog):
         if self.config_manager and all_doses:
             try:
                 risk_counts = self.calculate_risk_distribution()
-                risk_text = f"""Répartition des risques:
+                risk_text = f"""Répartition des catégories de dose:
     • Faible: {risk_counts['low']} dents
     • Modéré: {risk_counts['moderate']} dents
     • Élevé: {risk_counts['high']} dents"""
@@ -227,9 +227,9 @@ class DosePreviewDialog(QDialog):
                 risk_label.setStyleSheet("font-family: monospace; font-size: 12px; padding: 10px; border-left: 2px solid #3498db; margin-left: 20px;")
                 stats_layout.addWidget(risk_label)
             except Exception as e:
-                print(f"[ERREUR] Calcul répartition risques: {e}")
+                print(f"[ERREUR] Calcul répartition des catégories de dose: {e}")
                 # Afficher quand même les statistiques de base
-                risk_label = QLabel("Répartition des risques:\nConfiguration non disponible")
+                risk_label = QLabel("Répartition des catégories de dose:\nConfiguration non disponible")
                 risk_label.setStyleSheet("font-family: monospace; font-size: 12px; padding: 10px; border-left: 2px solid #e74c3c; margin-left: 20px;")
                 stats_layout.addWidget(risk_label)
         
@@ -245,7 +245,7 @@ class DosePreviewDialog(QDialog):
         
         self.complete_sort_combo = QComboBox()
         self.complete_sort_combo.addItems([
-            "Numéro de dent", "Dose croissante", "Dose décroissante", "Niveau de risque"
+            "Numéro de dent", "Dose croissante", "Dose décroissante", "Catégorie de dose"
         ])
         self.complete_sort_combo.currentTextChanged.connect(self.update_complete_table)
         
@@ -259,7 +259,7 @@ class DosePreviewDialog(QDialog):
         self.complete_table = QTableWidget()
         self.complete_table.setColumnCount(4)
         self.complete_table.setHorizontalHeaderLabels([
-            "Dent", "Dose (Gy)", "Niveau de risque", "Description"
+            "Dent", "Dose (Gy)", "Niveau de dose", "Description"
         ])
         
         # Ajuster les colonnes
@@ -297,7 +297,7 @@ class DosePreviewDialog(QDialog):
         self.crown_table = QTableWidget()
         self.crown_table.setColumnCount(3)
         self.crown_table.setHorizontalHeaderLabels([
-            "Dent", "Dose couronne (Gy)", "Niveau de risque"
+            "Dent", "Dose couronne (Gy)", "Catégorie de dose"
         ])
         
         header = self.crown_table.horizontalHeader()
@@ -333,7 +333,7 @@ class DosePreviewDialog(QDialog):
         self.root_table = QTableWidget()
         self.root_table.setColumnCount(3)
         self.root_table.setHorizontalHeaderLabels([
-            "Dent", "Dose racine (Gy)", "Niveau de risque"
+            "Dent", "Dose racine (Gy)", "Catégorie de dose"
         ])
         
         header = self.root_table.horizontalHeader()
@@ -346,7 +346,7 @@ class DosePreviewDialog(QDialog):
         tab_widget.addTab(tab, "Racines")
     
     def create_risk_summary_tab(self, tab_widget):
-        """Crée l'onglet de résumé par niveau de risque - VERSION CORRIGÉE"""
+        """Crée l'onglet de résumé par niveau de dose - VERSION CORRIGÉE"""
         tab = QWidget()
         layout = QVBoxLayout(tab)
         
@@ -356,11 +356,11 @@ class DosePreviewDialog(QDialog):
             no_config_label.setStyleSheet("color: #f39c12; font-weight: bold; padding: 20px;")
             layout.addWidget(no_config_label)
         
-        # Calculer la répartition par risque
+        # Calculer la répartition par catégorie de dose
         try:
             risk_data = self.calculate_detailed_risk_data()
             
-            # Créer les groupes par niveau de risque
+            # Créer les groupes par niveau de dose
             for risk_level, data in risk_data.items():
                 if data['teeth']:
                     group = QGroupBox(f"{data['label']} ({len(data['teeth'])} dents)")
@@ -384,11 +384,11 @@ class DosePreviewDialog(QDialog):
             
             layout.addStretch()
         except Exception as e:
-            error_label = QLabel(f"Erreur lors du calcul des risques:\n{str(e)}")
+            error_label = QLabel(f"Erreur lors du calcul des catégories de dose:\n{str(e)}")
             error_label.setStyleSheet("color: #e74c3c; padding: 20px;")
             layout.addWidget(error_label)
         
-        tab_widget.addTab(tab, "Résumé par risque")
+        tab_widget.addTab(tab, "Résumé par catégorie de dose")
     
     def create_control_buttons(self, layout):
         """Crée les boutons de contrôle"""
@@ -443,8 +443,8 @@ class DosePreviewDialog(QDialog):
             rows.sort(key=lambda x: x[1])
         elif sort_method == "Dose décroissante":  
             rows.sort(key=lambda x: x[1], reverse=True)
-        elif sort_method == "Niveau de risque":
-            # Trier par niveau de risque puis par dose
+        elif sort_method == "Catégories de dose":
+            # Trier par catégorie puis par dose
             risk_order = {'high': 0, 'moderate': 1, 'low': 2}
             rows.sort(key=lambda x: (risk_order.get(x[2]['level'], 3), -x[1]))
         
@@ -462,7 +462,7 @@ class DosePreviewDialog(QDialog):
             dose_item.setTextAlignment(Qt.AlignCenter)
             self.complete_table.setItem(i, 1, dose_item)
             
-            # Niveau de risque
+            # Catégorie de dose
             risk_item = QTableWidgetItem(risk_info['label'])
             risk_item.setTextAlignment(Qt.AlignCenter)
             if 'color' in risk_info:
@@ -508,7 +508,7 @@ class DosePreviewDialog(QDialog):
             dose_item.setTextAlignment(Qt.AlignCenter)
             self.crown_table.setItem(i, 1, dose_item)
             
-            # Niveau de risque
+            # Catégorie de dose
             risk_item = QTableWidgetItem(risk_info['label'])
             risk_item.setTextAlignment(Qt.AlignCenter)
             if 'color' in risk_info:
@@ -550,7 +550,7 @@ class DosePreviewDialog(QDialog):
             dose_item.setTextAlignment(Qt.AlignCenter)
             self.root_table.setItem(i, 1, dose_item)
             
-            # Niveau de risque
+            # Catégorie de dose
             risk_item = QTableWidgetItem(risk_info['label'])
             risk_item.setTextAlignment(Qt.AlignCenter)
             if 'color' in risk_info:
@@ -560,28 +560,28 @@ class DosePreviewDialog(QDialog):
             self.root_table.setItem(i, 2, risk_item)
     
     def get_risk_info(self, dose):
-        """Détermine le niveau de risque d'une dose - VERSION CORRIGÉE"""
+        """Détermine la catégorie d'une dose """
         if not self.config_manager:
             # Seuils par défaut si pas de configuration
             if dose < 30.0:
                 return {
                     'level': 'low',
                     'label': 'Faible',
-                    'description': 'Risque faible',
+                    'description': 'dose faible',
                     'color': '#27ae60'  # Vert
                 }
             elif dose < 50.0:
                 return {
                     'level': 'moderate',
                     'label': 'Modéré',
-                    'description': 'Risque modéré',
+                    'description': 'dose intermédiaise',
                     'color': '#f39c12'  # Orange
                 }
             else:
                 return {
                     'level': 'high',
                     'label': 'Élevé',
-                    'description': 'Risque élevé',
+                    'description': 'dose élevée',
                     'color': '#e74c3c'  # Rouge
                 }
         
@@ -618,26 +618,26 @@ class DosePreviewDialog(QDialog):
                 return {
                     'level': 'low',
                     'label': 'Faible',
-                    'description': 'Risque faible (défaut)',
+                    'description': 'dose faible (défaut)',
                     'color': '#27ae60'
                 }
             elif dose < 50.0:
                 return {
                     'level': 'moderate',
                     'label': 'Modéré',
-                    'description': 'Risque modéré (défaut)',
+                    'description': 'dose intermédiaire (défaut)',
                     'color': '#f39c12'
                 }
             else:
                 return {
                     'level': 'high',
                     'label': 'Élevé',
-                    'description': 'Risque élevé (défaut)',
+                    'description': 'dose élevé (défaut)',
                     'color': '#e74c3c'
                 }
     
     def calculate_risk_distribution(self):
-        """Calcule la répartition des doses par niveau de risque"""
+        """Calcule la répartition des doses par catégorie de dose"""
         data = self.doses_data.get('complete', {})
         
         counts = {'low': 0, 'moderate': 0, 'high': 0}
@@ -649,7 +649,7 @@ class DosePreviewDialog(QDialog):
         return counts
     
     def calculate_detailed_risk_data(self):
-        """Calcule les données détaillées par niveau de risque - VERSION CORRIGÉE"""
+        """Calcule les données détaillées par catégorie de dose"""
         data = self.doses_data.get('complete', {})
         
         risk_data = {
@@ -735,7 +735,7 @@ class DosePreviewDialog(QDialog):
                     crown_dose = crown_data.get(tooth, 0)
                     root_dose = root_data.get(tooth, 0)
                     
-                    # Utiliser la dose complète pour le niveau de risque
+                    # Utiliser la dose complète pour la catégorie de dose
                     if complete_dose > 0:
                         risk_info = self.get_risk_info(complete_dose)
                         risk_level = risk_info['label']
@@ -795,9 +795,9 @@ class DosePreviewDialog(QDialog):
                     stats_text += f"• Moyenne: {sum(doses)/len(doses):.2f} Gy\n"
                     stats_text += f"• Médiane: {sorted(doses)[len(doses)//2]:.2f} Gy\n\n"
             
-            # Répartition par risque
+            # Répartition par catégorie
             if complete_data and self.config_manager:
-                stats_text += "RÉPARTITION PAR NIVEAU DE RISQUE:\n"
+                stats_text += "RÉPARTITION PAR CATEGORIE DE DOSE :\n"
                 risk_data = self.calculate_detailed_risk_data()
                 
                 for risk_level, data in risk_data.items():
@@ -827,9 +827,18 @@ class DosePreviewDialog(QDialog):
                 
                 if high_risk_count > 0:
                     stats_text += "⚠️ ATTENTION:\n"
-                    stats_text += f"• {high_risk_count} dents à risque élevé détectées\n"
-                    stats_text += "• Surveillance clinique renforcée recommandée\n"
-                    stats_text += "• Voir recommandations dans le rapport PDF\n"
+                    stats_text += (
+                        f"• {high_risk_count} structures dentaires "
+                        "dans la catégorie de dose élevée\n"
+                    )
+                    
+                    stats_text += (
+                        "• Catégorisation dosimétrique expérimentale\n"
+                    )
+                    
+                    stats_text += (
+                        "• Résultats non destinés à un usage clinique\n"
+                    )
             
             # Dialogue d'affichage
             stats_dialog = QDialog(self)
