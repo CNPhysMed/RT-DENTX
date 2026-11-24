@@ -2520,7 +2520,7 @@ class ToothPanel(RTStructExportMixin):
             
             # Info sur le rapport
             report_info_text = ("Génère un PDF avec cartographies anatomiques,\n"
-                               "tableau des doses et recommandations cliniques")
+                               "tableau des doses et commentaires")
             report_info = tk.Label(
                 report_frame,
                 text=report_info_text,
@@ -2594,7 +2594,7 @@ class ToothPanel(RTStructExportMixin):
         self.btn_generate_report.pack(fill=tk.X, pady=(0, 2))
         
         # Note d'information
-        info_text = "Configurez d'abord les seuils et recommandations,\npuis générez le rapport avec aperçu."
+        info_text = "Configurez d'abord les seuils et commentaires d'analyse,\npuis générez le rapport avec aperçu."
         tk.Label(
             report_frame, 
             text=info_text, 
@@ -3011,7 +3011,7 @@ class ToothPanel(RTStructExportMixin):
                 if config_info['active_type'] != 'default':
                     from tkinter import messagebox
                     msg = f"Configuration {config_info['active_type']} active.\n"
-                    msg += "Le rapport utilisera les seuils et recommandations personnalisés."
+                    msg += "Le rapport utilisera les seuils et commentaires d'analyse."
                     messagebox.showinfo("Configuration active", msg)
             
             except Exception:
@@ -3032,7 +3032,7 @@ class ToothPanel(RTStructExportMixin):
             messagebox.showerror("Erreur", f"Erreur lors de la génération du rapport:\n{str(e)}")
     
     def show_report_config_dialog(self):
-        """Affiche le dialogue de configuration des seuils et recommandations """
+        """Affiche le dialogue de configuration des seuils et commentaires d'analyse """
         try:
             # Utiliser la nouvelle classe de configuration
             config_dialog = ReportConfigDialog(self.viewer.master, self.viewer)
