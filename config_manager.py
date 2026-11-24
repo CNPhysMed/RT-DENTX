@@ -15,34 +15,34 @@ class ConfigManager:
     """Gestionnaire de configuration avec persistance optionnelle"""
     
     # Configuration par défaut
-    DEFAULT_CONFIG = {
-        "risk_levels": {
-            "low_threshold": 30.0,
-            "moderate_threshold": 50.0,
-            "low_label": "Faible",
-            "moderate_label": "Modéré",
-            "high_label": "Élevé",
-            "low_description": "Risque d'ostéoradionécrose faible",
-            "moderate_description": "Risque d'ostéoradionécrose modéré",
-            "high_description": "Risque d'ostéoradionécrose élevé"
-        },
-        "recommendations": {
-            "title": "Recommandations cliniques",
-            "prevention_title": "PRÉVENTION DE L'OSTÉORADIONÉCROSE :",
-            "prevention_items": [
-                "",
-                "• Des précautions particulières doivent être prises lors des soins bucco-dentaires,",
-                "  en particulier en cas d'avulsion ou d'un autre geste chirurgical en territoire irradié.",
-                "",
-                "• Surveillance clinique renforcée pour les dents ayant reçu > 50 Gy (risque élevé)",
-                "  et entre 30-50 Gy (risque modéré).",
-            ],
-            "contact_title": "CONTACT :",
-            "contact_items": [
-                "",
-                "En cas de doute, veuillez prendre contact avec :",
-                "• Le radiothérapeute référent, ou",
-                "• Le service d'odontologie ou de chirurgie maxillofaciale du CHU le plus proche."
+    DEFAULT_CONFIG =  {
+    "risk_levels": {
+        "low_threshold": 30.0,
+        "moderate_threshold": 50.0,
+        "low_label": "Faible",
+        "moderate_label": "Intermédiaire",
+        "high_label": "Élevée",
+        "low_description": "Catégorie de dose faible",
+        "moderate_description": "Catégorie de dose intermédiaire",
+        "high_description": "Catégorie de dose élevée"
+    },
+    "recommendations": {
+        "title": "Interprétation expérimentale",
+        "prevention_title": "LIMITES DE L'ANALYSE :",
+        "prevention_items": [
+            "",
+            "Les structures dentaires reposent sur des",
+            "approximations géométriques.",
+            "",
+            "Les seuils de dose sont utilisés uniquement",
+            "pour la catégorisation expérimentale des résultats."
+        ],
+        "contact_title": "DESTINATION DU LOGICIEL :",
+        "contact_items": [
+            "",
+            "Recherche, développement et enseignement uniquement.",
+            "Les résultats ne doivent pas être utilisés",
+            "pour orienter une décision clinique."
             ]
         }
     }
