@@ -72,9 +72,9 @@ class DoseReportGenerator:
                 "low_label": "Faible",
                 "moderate_label": "Modéré",
                 "high_label": "Élevé",
-                "low_description": "Risque d'ostéoradionécrose faible",
-                "moderate_description": "Risque d'ostéoradionécrose modéré",
-                "high_description": "Risque d'ostéoradionécrose élevé"
+                "low_description": "Catégorie dose faible",
+                "moderate_description": "Catégorie dose modéré",
+                "high_description": "Catégorie dose élevé"
             }
             self.recommendations_text = None
     
@@ -193,19 +193,19 @@ class DoseReportGenerator:
         canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
         canvas.configure(yscrollcommand=scrollbar.set)
         
-        # Seuils de risque
-        risk_frame = ttk.LabelFrame(scrollable_frame, text="Seuils de risque appliqués", padding=10)
+        # Seuils de dosimétriques
+        risk_frame = ttk.LabelFrame(scrollable_frame, text="Seuils dosimétriques appliqués", padding=10)
         risk_frame.pack(fill=tk.X, padx=10, pady=(10, 5))
         
         seuils_text = f"""Les seuils suivants seront utilisés pour ce rapport :
 
-• Risque {self.risk_config['low_label']} : < {self.risk_config['low_threshold']:.0f} Gy
+• Dose {self.risk_config['low_label']} : < {self.risk_config['low_threshold']:.0f} Gy
   {self.risk_config['low_description']}
 
-• Risque {self.risk_config['moderate_label']} : {self.risk_config['low_threshold']:.0f} - {self.risk_config['moderate_threshold']:.0f} Gy
+• Dose {self.risk_config['moderate_label']} : {self.risk_config['low_threshold']:.0f} - {self.risk_config['moderate_threshold']:.0f} Gy
   {self.risk_config['moderate_description']}
 
-• Risque {self.risk_config['high_label']} : > {self.risk_config['moderate_threshold']:.0f} Gy
+• Dose {self.risk_config['high_label']} : > {self.risk_config['moderate_threshold']:.0f} Gy
   {self.risk_config['high_description']}"""
         
         tk.Label(risk_frame, text=seuils_text, font=('Arial', 10), 
@@ -236,11 +236,11 @@ class DoseReportGenerator:
         tk.Label(red_frame, text=f"> {self.risk_config['moderate_threshold']:.0f} Gy", 
                 font=('Arial', 9)).pack(side=tk.LEFT, padx=(5, 0))
         
-        # Recommandations cliniques
-        rec_frame = ttk.LabelFrame(scrollable_frame, text="Recommandations cliniques qui seront incluses", padding=10)
+        # Commentaires
+        rec_frame = ttk.LabelFrame(scrollable_frame, text="Commentaires et limites de l'analyse", padding=10)
         rec_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=(5, 10))
         
-        # Obtenir le texte des recommandations
+        # Obtenir le texte des commentaires
         rec_text = self._get_formatted_recommendations()
         
         # Zone de texte en lecture seule
@@ -287,7 +287,7 @@ class DoseReportGenerator:
         tree.heading('couronne', text='Dose couronne (Gy)')
         tree.heading('racine', text='Dose racine (Gy)')
         tree.heading('complete', text='Dose complète (Gy)')
-        tree.heading('statut', text='Statut de risque')
+        tree.heading('statut', text='Catégorie de dose')
         
         # Largeur des colonnes
         tree.column('#0', width=80)
@@ -397,12 +397,12 @@ class DoseReportGenerator:
                        variable=self.include_cartography).pack(anchor=tk.W, pady=2)
         ttk.Checkbutton(content_frame, text="Tableau récapitulatif des doses", 
                        variable=self.include_table).pack(anchor=tk.W, pady=2)
-        ttk.Checkbutton(content_frame, text="Recommandations cliniques", 
+        ttk.Checkbutton(content_frame, text="Commentaires d'analyse", 
                        variable=self.include_recommendations).pack(anchor=tk.W, pady=2)
         
         # Note d'information
         info_text = """Note : Le rapport PDF contiendra les éléments sélectionnés ci-dessus.
-Les seuils de risque et recommandations affichés dans l'onglet "Configuration appliquée" 
+Les catégories de dose et commentaires affichés dans l'onglet "Configuration appliquée" 
 seront automatiquement utilisés."""
         
         tk.Label(options_frame, text=info_text, font=('Arial', 9, 'italic'), 
@@ -474,25 +474,20 @@ seront automatiquement utilisés."""
                 pass
         
         # Recommandations par défaut
-        return f"""Recommandations cliniques
+        return """LIMITES DE L'ANALYSE EXPÉRIMENTALE
 
-PRÉVENTION DE L'OSTÉORADIONÉCROSE :
+Les doses sont estimées dans des volumes géométriques
+simplifiés représentant les structures dentaires.
 
-• Des précautions particulières doivent être prises lors des soins bucco-dentaires,
-  en particulier en cas d'avulsion ou d'un autre geste chirurgical en territoire irradié.
+Les catégories de dose sont utilisées à des fins
+d'analyse scientifique et ne constituent pas
+une estimation validée du risque clinique individuel.
 
-• Surveillance clinique renforcée pour les dents ayant reçu > {self.risk_config['moderate_threshold']:.0f} Gy (risque élevé)
-  et entre {self.risk_config['low_threshold']:.0f}-{self.risk_config['moderate_threshold']:.0f} Gy (risque modéré).
+Les résultats ne doivent pas servir de fondement
+à une décision médicale ou thérapeutique.
 
-• Maintien d'une hygiène bucco-dentaire optimale.
-
-• Fluorothérapie quotidienne recommandée.
-
-CONTACT :
-
-En cas de doute, veuillez prendre contact avec :
-• Le radiothérapeute référent, ou
-• Le service d'odontologie ou de chirurgie maxillofaciale du CHU le plus proche."""
+Recherche et enseignement uniquement.
+Non destiné à une utilisation clinique."""
     
     def _generate_pdf_report(self):
         """Génère le rapport PDF"""
@@ -625,27 +620,24 @@ class TempConfigManager:
             # Configuration par défaut avec seuils temporaires
             return {
                 "risk_levels": self.temp_risk_config,
-                "recommendations": {
-                    "title": "Recommandations cliniques",
-                    "prevention_title": "PRÉVENTION DE L'OSTÉORADIONÉCROSE :",
+                "Commentaires": {
+                    "title": "LIMITES DE L'ANALYSE EXPÉRIMENTALE",
+                    "prevention_title": "LIMITES DE L'ANALYSE EXPÉRIMENTALE:",
                     "prevention_items": [
                         "",
-                        "• Des précautions particulières doivent être prises lors des soins bucco-dentaires,",
-                        "  en particulier en cas d'avulsion ou d'un autre geste chirurgical en territoire irradié.",
+                        "• Les doses sont estimées dans des volumes géométriques",
+                        "  simplifiés représentant les structures dentaires.",
                         "",
-                        f"• Surveillance clinique renforcée pour les dents ayant reçu > {self.temp_risk_config['moderate_threshold']:.0f} Gy (risque élevé)",
-                        f"  et entre {self.temp_risk_config['low_threshold']:.0f}-{self.temp_risk_config['moderate_threshold']:.0f} Gy (risque modéré).",
+                        f"• Les catégories de dose sont utilisées à des fins d'analyse scientifique et ne constituent pas",
+                        f"  une estimation validée du risque clinique individuel.",
                         "",
-                        "• Maintien d'une hygiène bucco-dentaire optimale.",
+                        "• Les résultats ne doivent pas servir de fondement",
+                        f"  à une décision médicale ou thérapeutique.",
                         "",
-                        "• Fluorothérapie quotidienne recommandée."
+                        "• Recherche et enseignement uniquement."
                     ],
-                    "contact_title": "CONTACT :",
-                    "contact_items": [
-                        "",
-                        "En cas de doute, veuillez prendre contact avec :",
-                        "• Le radiothérapeute référent, ou",
-                        "• Le service d'odontologie ou de chirurgie maxillofaciale du CHU le plus proche."
+                    "Non destiné à une utilisation clinique.",
+                    "Recherche et enseignement uniquement."
                     ]
                 }
             }
@@ -667,25 +659,21 @@ class TempConfigManager:
         # Si les recommandations ne sont pas complètes, utiliser les valeurs par défaut
         if not rec or "title" not in rec:
             return [
-                "Recommandations cliniques",
+                "Commentaires",
                 "",
-                "PRÉVENTION DE L'OSTÉORADIONÉCROSE :",
+                "LIMITES DE L'ANALYSE EXPÉRIMENTALE:",
                 "",
-                "• Des précautions particulières doivent être prises lors des soins bucco-dentaires,",
-                "  en particulier en cas d'avulsion ou d'un autre geste chirurgical en territoire irradié.",
+                "• Les doses sont estimées dans des volumes géométriques",
+                "  simplifiés représentant les structures dentaires.",
                 "",
-                f"• Surveillance clinique renforcée pour les dents ayant reçu > {self.temp_risk_config['moderate_threshold']:.0f} Gy (risque élevé)",
-                f"  et entre {self.temp_risk_config['low_threshold']:.0f}-{self.temp_risk_config['moderate_threshold']:.0f} Gy (risque modéré).",
+                f"• Les catégories de dose sont utilisées à des fins d'analyse scientifique et ne constituent pas",
+                f"  une estimation validée du risque clinique individuel.",
                 "",
-                "• Maintien d'une hygiène bucco-dentaire optimale.",
+                "• Les résultats ne doivent pas servir de fondement",
+                f"  à une décision médicale ou thérapeutique.",
                 "",
-                "• Fluorothérapie quotidienne recommandée.",
-                "",
-                "CONTACT :",
-                "",
-                "En cas de doute, veuillez prendre contact avec :",
-                "• Le radiothérapeute référent, ou",
-                "• Le service d'odontologie ou de chirurgie maxillofaciale du CHU le plus proche."
+                "• Recherche et enseignement uniquement. Non destiné à une utilisation clinique."
+                
             ]
         
         # Utiliser les recommandations du config manager
