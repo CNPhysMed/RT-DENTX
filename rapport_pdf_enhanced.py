@@ -582,7 +582,23 @@ def _draw_recommendations(c, recommendations_text, y_pos):
         
         c.drawString(50, y_pos, line)
         y_pos -= 16
+def _draw_research_watermark(c, width, height):
+    c.saveState()
 
+    c.translate(width / 2, height / 2)
+    c.rotate(45)
+
+    c.setFont("Helvetica-Bold", 28)
+    c.setFillColorRGB(0.75, 0.75, 0.75)
+
+    if hasattr(c, "setFillAlpha"):
+        c.setFillAlpha(0.20)
+
+    c.drawCentredString(0, 15, "RESEARCH USE ONLY")
+    c.drawCentredString(0, -20, "NOT FOR CLINICAL USE")
+
+    c.restoreState()
+    
 def _draw_footer(c, width, height):
     """Dessine le pied de page avec mention légale"""
     # Mention légale
@@ -629,7 +645,7 @@ def _draw_footer(c, width, height):
         45,
         "Research and Educational Use Only - Not for Clinical Use"
     )
-    
+    _draw_research_watermark(c, width, height)
     c.restoreState()
 
 def _draw_centered_text(c, x, y, text):
