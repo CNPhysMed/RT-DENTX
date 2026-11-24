@@ -369,19 +369,21 @@ class RTDentxSplashScreen(tk.Toplevel):
         
         # Avertissement important en rouge
         warning_label = tk.Label(license_frame, 
-                       text="⚠️ Important - Usage recherche et enseignement",
+                       text="⚠️ Recherche et enseignement uniquement - Usage clinique exclu",
                        font=('Arial', 12, 'bold'),
                        bg='#f0f0f0', fg='#e74c3c')
         warning_label.pack(anchor=tk.W, pady=(0, 15))
         
         # Texte des conditions
-        conditions_text = """Ce logiciel ne constitue pas un dispositif médical validé et ne doit pas être utilisé comme outil de diagnostic, de planification ou de décision thérapeutique sans validation indépendante par un professionnel de santé qualifié.
-    
-    Les résultats affichés (notamment les doses moyennes estimées aux structures dentaires) sont basés sur des calculs à partir des données DICOM, et peuvent être sujets à des imprécisions dues aux contours, à la résolution des images ou à d'autres facteurs techniques.
-    
-    Aucune garantie n'est donnée quant à l'exactitude, la fiabilité ou l'adéquation des résultats pour un usage clinique. L'auteur et les contributeurs déclinent toute responsabilité en cas de dommage, direct ou indirect, résultant de l'usage du logiciel, y compris mais sans s'y limiter aux décisions médicales prises sur la base de ses résultats.
-    
-    L'utilisateur assume l'entière responsabilité de l'interprétation et de l'utilisation des données générées."""
+        conditions_text = """RT-DENTX est un prototype logiciel exclusivement destiné à la recherche scientifique, au développement méthodologique et à l'enseignement.
+
+Cette version n'est pas marquée CE au titre du règlement (UE) 2017/745 relatif aux dispositifs médicaux et n'est pas destinée à une utilisation clinique.
+
+Les structures dentaires générées reposent sur des approximations géométriques. Les résultats dosimétriques peuvent être affectés par les hypothèses de modélisation, la résolution des images et les caractéristiques des données DICOM importées.
+
+Les résultats, structures et rapports générés ne doivent pas être utilisés à des fins diagnostiques, thérapeutiques, de planification clinique ou de prise en charge individuelle d'un patient.
+
+Le développement et la maintenance de cette version Python ont été arrêtés en novembre 2026. Ce logiciel est distribué sous licence BSD 3-Clause."""
         
         # Frame avec hauteur fixe BEAUCOUP plus importante
         text_frame = tk.Frame(license_frame, bg='#f0f0f0', height=500)  # Hauteur encore augmentée
@@ -769,20 +771,26 @@ Le logiciel propose des fonctionnalités pour :
         warning_frame.pack(fill=tk.X, pady=(0, 15))
         
         warning_label = ttk.Label(warning_frame, 
-                                 text="⚠️ IMPORTANT - USAGE RECHERCHE ET ENSEIGNEMENT",
+                                 text="⚠️ IMPORTANT - USAGE RECHERCHE ET ENSEIGNEMENT - USAGE CLINIQUE EXCLU",
                                  font=('Segoe UI', 11, 'bold'),
                                  foreground='#e74c3c',
                                  background='#f0f0f0')
         warning_label.pack(anchor=tk.W)
         
         # Texte de licence avec formatage
-        license_text = """**RT-DENTX** est un logiciel fourni à des fins de recherche, d'enseignement ou d'analyse dosimétrique. Il ne constitue **pas un dispositif médical validé** et **ne doit pas être utilisé comme outil de diagnostic, de planification ou de décision thérapeutique sans validation indépendante par un professionnel de santé qualifié**.
+        license_text =  """**RT-DENTX est exclusivement destiné à la recherche scientifique, au développement et à l'enseignement.**
 
-Les résultats affichés (notamment les doses moyennes estimées aux structures dentaires) sont basés sur des calculs à partir des données DICOM, et peuvent être sujets à des imprécisions dues aux contours, à la résolution des images ou à d'autres facteurs techniques.
+Cette version n'est pas marquée CE au titre du règlement (UE) 2017/745 relatif aux dispositifs médicaux.
 
-**Aucune garantie n'est donnée** quant à l'exactitude, la fiabilité ou l'adéquation des résultats pour un usage clinique. L'auteur et les contributeurs déclinent toute responsabilité en cas de dommage, direct ou indirect, résultant de l'usage du logiciel, y compris mais sans s'y limiter aux décisions médicales prises sur la base de ses résultats.
+**Non destiné à une utilisation clinique.**
 
-**L'utilisateur assume l'entière responsabilité de l'interprétation et de l'utilisation des données générées.**"""
+Les structures dentaires générées reposent sur des approximations géométriques. Les résultats dosimétriques dépendent notamment des données DICOM importées et des hypothèses de modélisation.
+
+Les résultats, structures et rapports générés ne doivent pas être utilisés pour orienter une décision médicale ou thérapeutique, planifier un traitement ou contribuer à la prise en charge clinique individuelle d'un patient.
+
+**Le développement et la maintenance de cette version Python ont été arrêtés en novembre 2026.**
+
+Ce logiciel est distribué sous licence BSD 3-Clause."""
         
         text_widget = tk.Text(parent, wrap=tk.WORD, height=15,
                              font=('Segoe UI', 10), bg='#f0f0f0',
